@@ -1,23 +1,67 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import CreateListing from "./pages/CreateListing";
+import ListingDetails from "./components/ListingDetails";
+import ListingReview from "./components/ListingReview";
+import TripList from "./pages/TripList";
+import WishList from "./pages/WishList";
+import PropertyList from "./pages/PropertyList";
+import ReservationList from "./pages/ReservationList";
+import Category from "./pages/Category";
+import Search from "./pages/Search";
+import Pastexperience from "./components/Pastexperience";
+import Testimonials from "./components/Testimonials";
+import UpdateBooking from "./pages/UpdateBooking";
+import UpdateProperty from "./pages/UpdateProperty";
+import Loader from "./components/Loader";
+import { useState, useEffect } from "react";
+
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 2000);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        {loading ? (
+          <Loader />
+        ) : (
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/create-listing" element={<CreateListing />} />
+            <Route path="/properties/:listingId" element={<ListingDetails />} />
+            <Route path="/feedback/:listingId" element={<ListingReview />} />
+            <Route path="/pastexperience" element={<Pastexperience />} />
+            <Route path="/testimonials/:id" element={<Testimonials />} />
+            <Route
+              path="/properties/category/:category"
+              element={<Category />}
+            />
+            <Route path="/properties/search/:search" element={<Search />} />
+            <Route path="/:userId/trips" element={<TripList />} />
+            <Route path="/:userId/wishList" element={<WishList />} />
+            <Route path="/:userId/properties" element={<PropertyList />} />
+            <Route path="/:userId/reservations" element={<ReservationList />} />
+            <Route
+              path="/bookings/update/:bookingId"
+              element={<UpdateBooking />}
+            />
+            <Route
+              path="/update-listing/:listingId"
+              element={<UpdateProperty />}
+            />
+          </Routes>
+        )}
+      </BrowserRouter>
     </div>
   );
 }
